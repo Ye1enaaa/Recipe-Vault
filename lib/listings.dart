@@ -11,7 +11,7 @@ class _ListingsState extends State<Listings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Listings'),),
+      appBar: AppBar(title: Text('Listings')),
     );
   }
 }
