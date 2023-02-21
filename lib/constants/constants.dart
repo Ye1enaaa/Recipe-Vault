@@ -13,5 +13,5 @@ const deleteRecipeURL = '$baseURL/api/recipe/';
 //https://www.figma.com/file/FKbiRsNMjb87dH2td438zj/foodini-2.0?node-id=2%3A276&t=IbJupUfPMvfBuNHP-0
 const kprimaryColor = Color(0xFF000000);
 const ksecColor = Color(0xFF3FC979);
-final style = TextStyle(fontSize: 40, fontWeight: FontWeight.w400);
-final secstyle = TextStyle(fontSize: 25, fontWeight: FontWeight.w200);
+final style = TextStyle(fontSize: 30, fontWeight: FontWeight.w400, color: ksecColor);
+final secstyle = TextStyle(fontSize: 19, fontWeight: FontWeight.w200);

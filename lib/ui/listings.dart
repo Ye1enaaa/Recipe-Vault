@@ -160,6 +160,7 @@ class _ListingsState extends State<Listings> {
                       ),
                       const SizedBox(width: 20),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             '$cuisineName',
@@ -167,7 +168,14 @@ class _ListingsState extends State<Listings> {
                               textStyle: style
                             )
                           ),
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 25),
+                          Text(
+                            'Ingredients:',
+                            style: GoogleFonts.fredoka(
+                              fontSize: 17
+                            ),
+                          ),
+                          const SizedBox(height: 6),
                           Text(
                             '$ingredientsName',
                             style: GoogleFonts.dancingScript(
