@@ -1,5 +1,5 @@
-import 'package:firstactivity/root_page.dart';
-import 'package:firstactivity/text_fields.dart';
+import 'package:firstactivity/ui/root_page.dart';
+import 'package:firstactivity/constants/text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
