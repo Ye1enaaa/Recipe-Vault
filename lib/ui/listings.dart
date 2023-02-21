@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:line_icons/line_icons.dart';
 import '../constants/constants.dart';
 
 class Listings extends StatefulWidget {
@@ -25,6 +27,49 @@ class _ListingsState extends State<Listings> {
     }
     print(response.reasonPhrase);
   }
+  Future deleteRecipe(String id)async{
+    final uri = Uri.parse('$deleteRecipeURL$id');
+    final response = await http.delete(uri);
+    print(response.statusCode);
+  }
+  Future<void> showMyDialog(BuildContext context, String id, index) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Confirm Deletion?'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children:const  <Widget>[
+              //Text('Confirm Deletion?'),
+              Text('Would you like to delete this contact?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          ElevatedButton(
+            child: const Text('Yes'),
+            onPressed: () async{
+              setState(() {
+                deleteRecipe(id);
+                receiveData.removeAt(index);
+              });
+              Navigator.of(context).pop();
+            },
+          ),
+          ElevatedButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -40,9 +85,16 @@ class _ListingsState extends State<Listings> {
                   final id = item['id'].toString();
                   var cuisineName = item['cuisine'];
                   var ingredientsName = item['ingredients'];
-                  var steps = item['steps'];
+                  var ratings = item['ratings'];
                   var imageValue = item['img'];
               return Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 1,
+                      color: Colors.grey
+                    ))
+                ),
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,38 +111,74 @@ class _ListingsState extends State<Listings> {
                                 height: 38,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-      
                                   image: const DecorationImage(
                                     image: AssetImage('assets/img/gojo.jpg'),
-                                    ),
-                                  
-                                ),
+                                    ),                    
+                                )
                               ),
                               const SizedBox(width: 10),
                               const Text(
                                 'Erickson',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 18.0
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18.0,
+                                  //fontFamily: 'Poppins-Regular.ttf'
                                 ),
+                                ),
+                              const SizedBox(width: 220),
+                                //add ratings here
+                              Text('$ratings'),
+                              const SizedBox(width: 5),
+                              const Icon(LineIcons.star),
+                              //const SizedBox(width: 2),
+                              IconButton(
+                                onPressed:(){
+                                  showMyDialog(context, id, index);
+                                }, 
+                                icon: const Icon(LineIcons.trash),
                                 )
                             ],
                           ), 
                         )
                       ],
                     ),
-                  const SizedBox(height: 12),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 180,
-                    margin: const EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage('$getImageURL$imageValue'),
-                        fit: BoxFit.cover
+                  //const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Container(
+                        //width: MediaQuery.of(context).size.width,
+                        width: 180,
+                        height: 180,
+                        margin: const EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          image: DecorationImage(
+                            image: NetworkImage('$getImageURL$imageValue'),
+                            fit: BoxFit.cover
+                          )
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Column(
+                        children: [
+                          Text(
+                            '$cuisineName',
+                            style: GoogleFonts.akayaKanadaka(
+                              textStyle: style
+                            )
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            '$ingredientsName',
+                            style: GoogleFonts.dancingScript(
+                              textStyle: secstyle
+                            ),
+                          )
+                        ],
                       )
-                    ),
-                  )
+                    ],
+                  ),
+                  const SizedBox(height: 10)
                   ],
                 ),
               );
@@ -98,6 +186,6 @@ class _ListingsState extends State<Listings> {
             ), 
           ),
       ),
-    );
+    ); 
   }
 }

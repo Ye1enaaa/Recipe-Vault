@@ -30,7 +30,7 @@ class _RootPageState extends State<RootPage> {
       ),
       bottomNavigationBar: GNav(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-        backgroundColor: ksecColor,
+        backgroundColor: Colors.white,
         gap: 8,
         rippleColor:Colors.grey[300]!,
         hoverColor:Colors.grey[100]!,

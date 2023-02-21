@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.5
   line_icons: ^2.0.1
   image_picker: ^0.8.6+2
+  google_fonts: ^4.0.3
 
 dev_dependencies:
   flutter_test:
@@ -78,10 +79,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-     - family: Lato
-       fonts:
-         - asset: assets/fonts/Lato-Regular.ttf
+  #fonts:
+  #  - family: Poppins
+  #    fonts:
+  #      - asset: assets/fonts/Poppins-Regular.ttf
          
   #   - family: Trajan Pro
   #     fonts:

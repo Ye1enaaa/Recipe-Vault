@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'package:firstactivity/constants/text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'constants/constants.dart';
+
+//enum RadioDataEnum {one, two, three, four, five}
 
 class AddRecipe extends StatefulWidget {
   const AddRecipe({ Key? key }) : super(key: key);
@@ -16,18 +19,18 @@ class _AddRecipeState extends State<AddRecipe> {
   TextEditingController ingredientsController = TextEditingController();
   TextEditingController ratingsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-
+  int selectedRadio=0;
   Future <void> postData() async{
     final cuisine = cuisineController.text;
     final ingredients = ingredientsController.text;
-    final ratings = ratingsController.text;
-    
+    //final ratings = ratingsController.text;
+    //var drop = '';
    var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL))
     ..fields.addAll(
          {
             'cuisine': cuisine,
            'ingredients' : ingredients,
-            'ratings' : ratings
+            'ratings' : selectedRadio.toString()
           })
       ..headers.addAll({'Content-Type': 'multipart/form-data'})
      ..files.add(await http.MultipartFile.fromPath('img', image!.path));
@@ -46,133 +49,136 @@ class _AddRecipeState extends State<AddRecipe> {
     }
     );
   }
-
+  @override
+  void initState() {
+    selectedRadio = 0;
+    super.initState();
+  }
+  //RadioDataEnum radiodataEnum = RadioDataEnum.one;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Add Contacts'),
-      ),
-      body: Form( 
-        key: formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: (){
-                    imagePicker();
-                  },
-                  child: Ink(
-                    child: Container(
-                    height: 300,
-                    width: 350,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                    ),
-                    child: Center(
-                      child: Column(
-                        children: [
-                        Expanded(child: image == null ?
-                       const Center(child: Text('Tap to upload image'))
-                        :Image.file(image,
-                        width: 350,
-                        height: 300,
-                        fit: BoxFit.cover,
-                        )
-                        )],
-                      ), 
-                    ),
-                            ),
-                  ),
-                ),
-                const SizedBox(height: 40),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(15))
-                  ),
-                  child: TextFormField(
-                    validator: (value) {
-                      if(value!.isEmpty){
-                        return 'Please enter name';
-                      }
+      body: SafeArea(
+        child: Form( 
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 30),
+                  InkWell(
+                    onTap: (){
+                      imagePicker();
                     },
-                    style: const TextStyle(color: Colors.white),
-                    controller: cuisineController,
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      labelText: 'Name'
+                    child: Ink(
+                      child: Container(
+                      height: 300,
+                      width: 350,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                      ),
+                      child: Center(
+                        child: Column(
+                          children: [
+                          Expanded(child: image == null ?
+                         const Center(child: Text('Tap to upload image'))
+                          :Image.file(image,
+                          width: 350,
+                          height: 300,
+                          fit: BoxFit.cover,
+                          )
+                          )],
+                        ), 
+                      ),
+                              ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(15))
+                  const SizedBox(height: 40),
+                  //inputs
+                  TextFields(
+                    controller: cuisineController, 
+                    maxLines: 1, 
+                    hintText: 'Cuisine', 
+                    obscureText: false
                   ),
-                  child: TextFormField(
-                    validator: (value) {
-                      if(value!.isEmpty){
-                        return 'Please enter address';
-                      }
-                    },
-                    style: const TextStyle(color: Colors.white),
-                    controller: ingredientsController,
-                    keyboardType: TextInputType.text,
-                    decoration: const InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      labelText: 'Address'
-                    ),
+                  const SizedBox(height: 30),
+                  TextFields(
+                    controller: ingredientsController, 
+                    maxLines: null, 
+                    hintText: 'Ingredients', 
+                    obscureText: false,
                   ),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(15))
-                  ),
-                  child: TextFormField(
-                    validator: (value) {
-                      if(value!.isEmpty){
-                        return 'Please enter contact number';
-                      }
-                    },
-                    style: const TextStyle(color: Colors.white),
-                    controller: ratingsController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                      labelText: 'Contact Number'
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-
-                SizedBox(
-                  height: 50,
-                  child: ElevatedButton(
-                      onPressed: ()async{
-                        if(formKey.currentState!.validate()){
-                          setState((){
-                            postData();
+                  const SizedBox(height: 30),
+                  const Text('Ratings'),
+                  //For Rows
+                  Row(
+                    children: [
+                      Radio(
+                        value: 1, 
+                        groupValue: selectedRadio, 
+                        onChanged: (value){
+                          setState(() {
+                            selectedRadio = value!;
                           });
-                        }
-                      },
-                      child: const Text('SUBMIT')),
-                ),
-              ],
+                        },
+                      ),
+                      const Text('1'),
+                      Radio(
+                        value: 2, 
+                        groupValue: selectedRadio, 
+                        onChanged: (value){
+                           setState(() {
+                            selectedRadio = value!;
+                          });
+                        },
+                      ),
+                      const Text('2'),
+                      Radio(
+                        value: 3, 
+                        groupValue: selectedRadio, 
+                        onChanged: (value){
+                          setState(() {
+                            selectedRadio = value!;
+                          });
+                        },
+                      ),
+                      const Text('3'),
+                      Radio(
+                        value: 4, 
+                        groupValue: selectedRadio, 
+                        onChanged: (value){
+                          setState(() {
+                            selectedRadio = value!;
+                          });
+                        },
+                      ),
+                      const Text('4'),
+                      Radio(
+                        value: 5, 
+                        groupValue: selectedRadio, 
+                        onChanged: (value){
+                          setState(() {
+                            selectedRadio = value!;
+                          });
+                        },
+                      ),
+                      const Text('5')  
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: 40,
+                    child: ElevatedButton(onPressed: (){
+                      postData();
+                    }, child: const Text('SUBMIT')),
+                  )
+                ],
+              ),
             ),
-          ),
-          ),
+            ),
+        ),
       )
     );
   }
