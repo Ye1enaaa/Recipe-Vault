@@ -74,6 +74,7 @@ class _ListingsState extends State<Listings> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: Drawer(),
       body: SafeArea(
         child: RefreshIndicator(
           backgroundColor: kprimaryColor,
@@ -117,13 +118,12 @@ class _ListingsState extends State<Listings> {
                                 )
                               ),
                               const SizedBox(width: 10),
-                              const Text(
+                              Text(
                                 'Erickson',
-                                style: TextStyle(
+                                style: GoogleFonts.fredoka(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 18.0,
-                                  //fontFamily: 'Poppins-Regular.ttf'
-                                ),
+                                  fontSize: 18
+                                )
                                 ),
                               const SizedBox(width: 220),
                                 //add ratings here

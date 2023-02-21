@@ -5,8 +5,10 @@ class TextFields extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final maxLines;
+  final hintStyle;
 const TextFields({ 
   Key? key,
+  required this.hintStyle,
   required this.maxLines,
   required this.controller,
   required this.hintText,
@@ -22,6 +24,7 @@ const TextFields({
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(   
+          hintStyle: hintStyle,
           hintText: hintText,
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white)

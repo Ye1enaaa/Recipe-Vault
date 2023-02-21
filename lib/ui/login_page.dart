@@ -1,6 +1,7 @@
 import 'package:firstactivity/ui/root_page.dart';
 import 'package:firstactivity/constants/text_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -36,12 +37,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20),
               TextFields(
+                hintStyle: null,
                 maxLines: null,
                 controller: nameController, 
                 obscureText: false, 
                 hintText: 'Username'),
               const SizedBox(height: 20),
               TextFields(
+                hintStyle: null,
                 maxLines: null,
                 controller: passwordController, 
                 obscureText: true, 

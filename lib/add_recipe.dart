@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firstactivity/constants/text_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'constants/constants.dart';
@@ -67,7 +68,7 @@ class _AddRecipeState extends State<AddRecipe> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   InkWell(
                     onTap: (){
                       imagePicker();
@@ -98,6 +99,7 @@ class _AddRecipeState extends State<AddRecipe> {
                   const SizedBox(height: 40),
                   //inputs
                   TextFields(
+                    hintStyle: GoogleFonts.fredoka(),
                     controller: cuisineController, 
                     maxLines: 1, 
                     hintText: 'Cuisine', 
@@ -105,17 +107,25 @@ class _AddRecipeState extends State<AddRecipe> {
                   ),
                   const SizedBox(height: 30),
                   TextFields(
+                    hintStyle: GoogleFonts.fredoka(),
                     controller: ingredientsController, 
                     maxLines: null, 
                     hintText: 'Ingredients', 
                     obscureText: false,
                   ),
                   const SizedBox(height: 30),
-                  const Text('Ratings'),
-                  //For Rows
+                  Text(
+                    'Rate this dish',
+                    style: GoogleFonts.fredoka(
+                      fontSize: 20
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Radio(
+                        activeColor: ksecColor,
                         value: 1, 
                         groupValue: selectedRadio, 
                         onChanged: (value){
@@ -124,8 +134,9 @@ class _AddRecipeState extends State<AddRecipe> {
                           });
                         },
                       ),
-                      const Text('1'),
+                      //const Text('1'),
                       Radio(
+                        activeColor: ksecColor,
                         value: 2, 
                         groupValue: selectedRadio, 
                         onChanged: (value){
@@ -134,8 +145,9 @@ class _AddRecipeState extends State<AddRecipe> {
                           });
                         },
                       ),
-                      const Text('2'),
+                      //const Text('2'),
                       Radio(
+                        activeColor: ksecColor,
                         value: 3, 
                         groupValue: selectedRadio, 
                         onChanged: (value){
@@ -144,8 +156,9 @@ class _AddRecipeState extends State<AddRecipe> {
                           });
                         },
                       ),
-                      const Text('3'),
+                      //const Text('3'),
                       Radio(
+                        activeColor: ksecColor,
                         value: 4, 
                         groupValue: selectedRadio, 
                         onChanged: (value){
@@ -154,8 +167,9 @@ class _AddRecipeState extends State<AddRecipe> {
                           });
                         },
                       ),
-                      const Text('4'),
+                      //const Text('4'),
                       Radio(
+                        activeColor: ksecColor,
                         value: 5, 
                         groupValue: selectedRadio, 
                         onChanged: (value){
@@ -164,15 +178,48 @@ class _AddRecipeState extends State<AddRecipe> {
                           });
                         },
                       ),
-                      const Text('5')  
+                      //const Text('5')  
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children:[
+                      Text(
+                        '1',
+                        style: GoogleFonts.fredoka()
+                      ),
+                      Text(
+                        '2',
+                        style: GoogleFonts.fredoka()
+                      ),
+                      Text(
+                        '3',
+                        style: GoogleFonts.fredoka()
+                      ),
+                      Text(
+                        '4',
+                        style: GoogleFonts.fredoka()
+                      ),
+                      Text(
+                        '5',
+                        style: GoogleFonts.fredoka()
+                      )  
                     ],
                   ),
                   const SizedBox(height: 30),
-                  SizedBox(
-                    height: 40,
-                    child: ElevatedButton(onPressed: (){
-                      postData();
-                    }, child: const Text('SUBMIT')),
+                  OutlinedButton(
+                    onPressed: postData,
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    backgroundColor: ksecColor
+                    ), 
+                    child: Text(
+                      'SUBMIT',
+                      style: GoogleFonts.fredokaOne(
+                        color: Colors.black,
+                      ),
+                    ),
                   )
                 ],
               ),

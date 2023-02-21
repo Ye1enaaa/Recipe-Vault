@@ -4,6 +4,7 @@ import 'package:firstactivity/ui/home_page.dart';
 import 'package:firstactivity/ui/listings.dart';
 import 'package:firstactivity/ui/profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -29,7 +30,7 @@ class _RootPageState extends State<RootPage> {
         ],
       ),
       bottomNavigationBar: GNav(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         backgroundColor: Colors.white,
         gap: 8,
         rippleColor:Colors.grey[300]!,
@@ -45,18 +46,24 @@ class _RootPageState extends State<RootPage> {
             icon: LineIcons.bookmark,
             text: 'Listings',
             borderRadius: BorderRadius.circular(20),
+            textStyle: GoogleFonts.fredoka(),
+            iconActiveColor: ksecColor,
           ),
           GButton(
-            icon: LineIcons.list,
-            text: 'Post',
+            icon: LineIcons.plusCircle,
+            text: 'Add Recipe',
             borderRadius: BorderRadius.circular(20),
+            textStyle: GoogleFonts.fredoka(),
+            iconActiveColor: ksecColor,
           ),
           GButton(
             icon: LineIcons.user,
             text: 'Account',
             borderRadius: BorderRadius.circular(20),
-          )    
-        ],
+            textStyle: GoogleFonts.fredoka(),
+            iconActiveColor: ksecColor,
+          )
+          ],
       ),
     );
   }
