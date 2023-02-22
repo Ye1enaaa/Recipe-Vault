@@ -1,4 +1,3 @@
-import 'package:firstactivity/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -154,6 +153,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(width: 30),
                         Text(
                           'avilasonson@gmail.com',
+                          style: GoogleFonts.fredoka(
+                            fontSize: 18,
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      children: [
+                        const SizedBox(width: 30),
+                        const Icon(LineIcons.github),
+                        const SizedBox(width: 30),
+                        Text(
+                          'https://github.com/Ye1enaaa',
                           style: GoogleFonts.fredoka(
                             fontSize: 18,
                           ),

@@ -25,17 +25,15 @@ class _ListingsState extends State<Listings> {
         receiveData = result;
       });
     }
-    print(response.reasonPhrase);
   }
   Future deleteRecipe(String id)async{
     final uri = Uri.parse('$deleteRecipeURL$id');
-    final response = await http.delete(uri);
-    print(response.statusCode);
+    await http.delete(uri);
   }
   Future<void> showMyDialog(BuildContext context, String id, index) async {
   return showDialog<void>(
     context: context,
-    barrierDismissible: false, // user must tap button!
+    barrierDismissible: true, 
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(
@@ -48,9 +46,9 @@ class _ListingsState extends State<Listings> {
               Text(
                 'Would you like to delete this recipe?',
                 style: GoogleFonts.fredoka(),
-                ),
-            ],
-          ),
+                )
+            ]
+          )
         ),
         actions: <Widget>[
           OutlinedButton(
@@ -87,15 +85,14 @@ class _ListingsState extends State<Listings> {
               ),
             )
           )
-        ],
+        ]
       );
-    },
+    }
   );
 }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
@@ -136,7 +133,7 @@ class _ListingsState extends State<Listings> {
                                   borderRadius: BorderRadius.circular(20),
                                   image: const DecorationImage(
                                     image: AssetImage('assets/img/erickson.jpg'),
-                                    ),                    
+                                    )
                                 )
                               ),
                               const SizedBox(width: 10),
@@ -148,7 +145,6 @@ class _ListingsState extends State<Listings> {
                                 )
                                 ),
                               const SizedBox(width: 225),
-                                //add ratings here
                               Text(
                                 '$ratings',
                                 style: GoogleFonts.fredoka(
@@ -157,7 +153,6 @@ class _ListingsState extends State<Listings> {
                               ),
                               const SizedBox(width: 5),
                               const Icon(LineIcons.star),
-                              //const SizedBox(width: 2),
                               IconButton(
                                 onPressed:(){
                                   showMyDialog(context, id, index);
@@ -169,11 +164,9 @@ class _ListingsState extends State<Listings> {
                         )
                       ],
                     ),
-                  //const SizedBox(height: 10),
                   Row(
                     children: [
                       Container(
-                        //width: MediaQuery.of(context).size.width,
                         width: 180,
                         height: 180,
                         margin: const EdgeInsets.only(top: 5),

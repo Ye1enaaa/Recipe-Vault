@@ -1,12 +1,10 @@
 import 'dart:io';
-import 'package:firstactivity/constants/text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:line_icons/line_icons.dart';
 import '../constants/constants.dart';
-
-//enum RadioDataEnum {one, two, three, four, five}
 
 class AddRecipe extends StatefulWidget {
   const AddRecipe({ Key? key }) : super(key: key);
@@ -24,8 +22,7 @@ class _AddRecipeState extends State<AddRecipe> {
   Future <void> postData() async{
     final cuisine = cuisineController.text;
     final ingredients = ingredientsController.text;
-    
-   var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL))
+    var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL))
     ..fields.addAll(
          {
             'cuisine': cuisine,
@@ -33,11 +30,9 @@ class _AddRecipeState extends State<AddRecipe> {
             'ratings' : selectedRadio.toString()
           })
       ..headers.addAll({'Content-Type': 'multipart/form-data'})
-     ..files.add(await http.MultipartFile.fromPath('img', image!.path));
+    ..files.add(await http.MultipartFile.fromPath('img', image!.path));
     await request.send();
     backtoPrevious();
-    cuisineController.clear();
-    ingredientsController.clear();
   }
   
   
@@ -72,10 +67,10 @@ class _AddRecipeState extends State<AddRecipe> {
         child: Form( 
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
                   InkWell(
@@ -85,25 +80,37 @@ class _AddRecipeState extends State<AddRecipe> {
                     child: Ink(
                       child: Container(
                       height: 300,
-                      width: 350,
+                      width: 450,
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 0.1
+                        )
                       ),
                       child: Center(
                         child: Column(
                           children: [
                           Expanded(child: image == null ?
-                         const Center(child: Text('Tap to upload image'))
+                         Center(
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 130),
+                              const Icon(LineIcons.upload),
+                              Text(
+                                'Tap to upload image',
+                                style: GoogleFonts.fredoka(),
+                              ),
+                            ],
+                          ))
                           :Image.file(image,
-                          width: 350,
+                          width: 450,
                           height: 300,
                           fit: BoxFit.cover,
                           )
-                          )],
-                        ), 
-                      ),
-                              ),
-                    ),
+                          )]
+                        ) 
+                      ))
+                    )
                   ),
                   //inputs
                   const SizedBox(height: 40),
@@ -129,7 +136,7 @@ class _AddRecipeState extends State<AddRecipe> {
                       maxLines: 1,
                       obscureText: false,
                       controller: cuisineController,                    
-                    ),
+                    )
                   ),
                   const SizedBox(height: 30),
                   Padding(
@@ -137,7 +144,7 @@ class _AddRecipeState extends State<AddRecipe> {
                     child: TextFormField(
                       validator: (value){
                         if(value!.isEmpty){
-                          return 'Please provide dish name';
+                          return 'Please provide ingredients';
                         }
                       },
                       decoration: InputDecoration(
@@ -154,14 +161,14 @@ class _AddRecipeState extends State<AddRecipe> {
                       maxLines: null,
                       obscureText: false,
                       controller: ingredientsController,                    
-                    ),
+                    )
                   ),
                   const SizedBox(height: 30),
                   Text(
                     'Rate this dish',
                     style: GoogleFonts.fredoka(
                       fontSize: 20
-                    ),
+                    )
                   ),
                   const SizedBox(height: 30),
                   Row(
@@ -175,9 +182,8 @@ class _AddRecipeState extends State<AddRecipe> {
                           setState(() {
                             selectedRadio = value!;
                           });
-                        },
+                        }
                       ),
-                      //const Text('1'),
                       Radio(
                         activeColor: ksecColor,
                         value: 2, 
@@ -186,9 +192,8 @@ class _AddRecipeState extends State<AddRecipe> {
                            setState(() {
                             selectedRadio = value!;
                           });
-                        },
+                        }
                       ),
-                      //const Text('2'),
                       Radio(
                         activeColor: ksecColor,
                         value: 3, 
@@ -197,9 +202,8 @@ class _AddRecipeState extends State<AddRecipe> {
                           setState(() {
                             selectedRadio = value!;
                           });
-                        },
+                        }
                       ),
-                      //const Text('3'),
                       Radio(
                         activeColor: ksecColor,
                         value: 4, 
@@ -208,9 +212,8 @@ class _AddRecipeState extends State<AddRecipe> {
                           setState(() {
                             selectedRadio = value!;
                           });
-                        },
+                        }
                       ),
-                      //const Text('4'),
                       Radio(
                         activeColor: ksecColor,
                         value: 5, 
@@ -219,13 +222,12 @@ class _AddRecipeState extends State<AddRecipe> {
                           setState(() {
                             selectedRadio = value!;
                           });
-                        },
-                      ),
-                      //const Text('5')  
-                    ],
+                        }
+                      ) 
+                    ]
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children:[
                       Text(
                         '1',
@@ -247,7 +249,7 @@ class _AddRecipeState extends State<AddRecipe> {
                         '5',
                         style: GoogleFonts.fredoka()
                       )  
-                    ],
+                    ]
                   ),
                   const SizedBox(height: 30),
                   OutlinedButton(
@@ -256,6 +258,8 @@ class _AddRecipeState extends State<AddRecipe> {
                         setState(() {
                           postData();
                           image = null;
+                          cuisineController.clear();
+                          ingredientsController.clear();
                           selectedRadio = 0;
                         });
                       }
@@ -269,14 +273,14 @@ class _AddRecipeState extends State<AddRecipe> {
                       'SUBMIT',
                       style: GoogleFonts.fredokaOne(
                         color: Colors.black,
-                      ),
-                    ),
+                      )
+                    )
                   )
-                ],
-              ),
-            ),
-            ),
-        ),
+                ]
+              )
+            )
+          )
+        )
       )
     );
   }

@@ -50,7 +50,7 @@ class _RootPageState extends State<RootPage> {
           ),
           GButton(
             icon: LineIcons.plusCircle,
-            text: 'Add Recipe',
+            text: 'Add Dish',
             borderRadius: BorderRadius.circular(20),
             textStyle: GoogleFonts.fredoka(),
             iconActiveColor: ksecColor,
