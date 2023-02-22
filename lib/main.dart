@@ -1,3 +1,4 @@
+import 'package:firstactivity/ui/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'ui/root_page.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const RootPage(),
+      home: const OnboardingScreen(),
     );
   }
 }

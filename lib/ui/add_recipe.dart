@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,19 +20,21 @@ class _AddRecipeState extends State<AddRecipe> {
   TextEditingController ratingsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   int selectedRadio=0;
-  Future <void> postData() async{
+
+  Future postRecipeData() async{
     final cuisine = cuisineController.text;
     final ingredients = ingredientsController.text;
-    var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL))
-    ..fields.addAll(
-         {
-            'cuisine': cuisine,
-           'ingredients' : ingredients,
-            'ratings' : selectedRadio.toString()
-          })
-      ..headers.addAll({'Content-Type': 'multipart/form-data'})
-    ..files.add(await http.MultipartFile.fromPath('img', image!.path));
-    await request.send();
+    var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL));
+    request.headers.addAll({'Content-Type': 'multipart/form-data'});
+    request.fields.addAll(
+      {
+        'cuisine': cuisine,
+        'ingredients' : ingredients,
+        'ratings' : selectedRadio.toString()
+      }
+    );
+    request.files.add(await http.MultipartFile.fromPath('img', image!.path));
+    var response = await request.send();
     backtoPrevious();
   }
   
@@ -57,6 +60,11 @@ class _AddRecipeState extends State<AddRecipe> {
   void backtoPrevious(){
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Recipe added'),
+      backgroundColor: ksecColor));
+  }
+  void thereisError(){
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please provide details'),
       backgroundColor: ksecColor));
   }
   
@@ -256,7 +264,7 @@ class _AddRecipeState extends State<AddRecipe> {
                     onPressed: ()async{
                       if(formKey.currentState!.validate()){
                         setState(() {
-                          postData();
+                          postRecipeData();
                           image = null;
                           cuisineController.clear();
                           ingredientsController.clear();
@@ -271,7 +279,8 @@ class _AddRecipeState extends State<AddRecipe> {
                     ), 
                     child: Text(
                       'SUBMIT',
-                      style: GoogleFonts.fredokaOne(
+                      style: GoogleFonts.fredoka(
+                        fontWeight: FontWeight.w500,
                         color: Colors.black,
                       )
                     )

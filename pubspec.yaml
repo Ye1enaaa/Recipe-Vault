@@ -40,6 +40,9 @@ dependencies:
   line_icons: ^2.0.1
   image_picker: ^0.8.6+2
   google_fonts: ^4.0.3
+  slide_action: ^0.0.2
+  action_slider: ^0.6.1
+  slide_to_act: ^2.0.1
 
 dev_dependencies:
   flutter_test:
