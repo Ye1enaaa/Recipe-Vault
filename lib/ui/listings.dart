@@ -38,18 +38,22 @@ class _ListingsState extends State<Listings> {
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Confirm Deletion?'),
+        title: Text(
+          'Confirm Deletion?',
+          style: GoogleFonts.fredoka(),
+        ),
         content: SingleChildScrollView(
           child: ListBody(
-            children:const  <Widget>[
-              //Text('Confirm Deletion?'),
-              Text('Would you like to delete this contact?'),
+            children:<Widget>[
+              Text(
+                'Would you like to delete this recipe?',
+                style: GoogleFonts.fredoka(),
+                ),
             ],
           ),
         ),
         actions: <Widget>[
-          ElevatedButton(
-            child: const Text('Yes'),
+          OutlinedButton(
             onPressed: () async{
               setState(() {
                 deleteRecipe(id);
@@ -57,13 +61,32 @@ class _ListingsState extends State<Listings> {
               });
               Navigator.of(context).pop();
             },
+            style: OutlinedButton.styleFrom(
+              backgroundColor: ksecColor
+            ),
+            child: Text(
+              'Yes',
+              style: GoogleFonts.fredoka(
+                color: Colors.black,
+                fontWeight: FontWeight.w400
+              ),
+            ),
           ),
-          ElevatedButton(
-            child: const Text('Cancel'),
+          OutlinedButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-          ),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: ksecColor
+            ),
+            child: Text(
+              'No',
+              style: GoogleFonts.fredoka(
+                color: Colors.black,
+                fontWeight: FontWeight.w400
+              ),
+            )
+          )
         ],
       );
     },
@@ -74,7 +97,6 @@ class _ListingsState extends State<Listings> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: Drawer(),
       body: SafeArea(
         child: RefreshIndicator(
           backgroundColor: kprimaryColor,
@@ -92,7 +114,7 @@ class _ListingsState extends State<Listings> {
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      width: 1,
+                      width: 0.4,
                       color: Colors.grey
                     ))
                 ),
@@ -108,12 +130,12 @@ class _ListingsState extends State<Listings> {
                           child: Row(
                             children: [
                               Container(
-                                width: 38,
-                                height: 38,
+                                width: 30,
+                                height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   image: const DecorationImage(
-                                    image: AssetImage('assets/img/gojo.jpg'),
+                                    image: AssetImage('assets/img/erickson.jpg'),
                                     ),                    
                                 )
                               ),
@@ -125,9 +147,14 @@ class _ListingsState extends State<Listings> {
                                   fontSize: 18
                                 )
                                 ),
-                              const SizedBox(width: 220),
+                              const SizedBox(width: 225),
                                 //add ratings here
-                              Text('$ratings'),
+                              Text(
+                                '$ratings',
+                                style: GoogleFonts.fredoka(
+                                  fontWeight: FontWeight.w500
+                                ),
+                              ),
                               const SizedBox(width: 5),
                               const Icon(LineIcons.star),
                               //const SizedBox(width: 2),

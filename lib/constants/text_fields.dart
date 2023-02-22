@@ -20,6 +20,7 @@ const TextFields({
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
         child: TextField(
+        key: key,
         maxLines: maxLines,
         controller: controller,
         obscureText: obscureText,

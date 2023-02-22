@@ -1,8 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
-const baseURL = 'http://192.168.85.116:8000';
+const baseURL = 'http://192.168.213.103:8000';
 const postRecipeURL = '$baseURL/api/recipe';
 const getRecipeURL = '$baseURL/api/recipe';
 const getImageURL = '$baseURL/storage/' ;

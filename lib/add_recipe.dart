@@ -20,12 +20,12 @@ class _AddRecipeState extends State<AddRecipe> {
   TextEditingController ingredientsController = TextEditingController();
   TextEditingController ratingsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+  var responses;
   int selectedRadio=0;
   Future <void> postData() async{
     final cuisine = cuisineController.text;
     final ingredients = ingredientsController.text;
-    //final ratings = ratingsController.text;
-    //var drop = '';
+    
    var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL))
     ..fields.addAll(
          {
@@ -35,8 +35,10 @@ class _AddRecipeState extends State<AddRecipe> {
           })
       ..headers.addAll({'Content-Type': 'multipart/form-data'})
      ..files.add(await http.MultipartFile.fromPath('img', image!.path));
-   await request.send();
+   var response = await request.send();
+   
   }
+  
   
   var image;
   final imgpicker = ImagePicker();
@@ -96,22 +98,46 @@ class _AddRecipeState extends State<AddRecipe> {
                               ),
                     ),
                   ),
-                  const SizedBox(height: 40),
                   //inputs
-                  TextFields(
-                    hintStyle: GoogleFonts.fredoka(),
-                    controller: cuisineController, 
-                    maxLines: 1, 
-                    hintText: 'Cuisine', 
-                    obscureText: false
+                  const SizedBox(height: 40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.fredoka(),
+                        hintText: 'Dish name',
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)
+                        ),
+                        filled: true
+                      ),
+                      maxLines: 1,
+                      obscureText: false,
+                      controller: cuisineController,                    
+                    ),
                   ),
                   const SizedBox(height: 30),
-                  TextFields(
-                    hintStyle: GoogleFonts.fredoka(),
-                    controller: ingredientsController, 
-                    maxLines: null, 
-                    hintText: 'Ingredients', 
-                    obscureText: false,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintStyle: GoogleFonts.fredoka(),
+                        hintText: 'Ingredients',
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white)
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey.shade400)
+                        ),
+                        filled: true
+                      ),
+                      maxLines: null,
+                      obscureText: false,
+                      controller: ingredientsController,                    
+                    ),
                   ),
                   const SizedBox(height: 30),
                   Text(
@@ -208,7 +234,11 @@ class _AddRecipeState extends State<AddRecipe> {
                   ),
                   const SizedBox(height: 30),
                   OutlinedButton(
-                    onPressed: postData,
+                    onPressed: (){
+                      postData();
+                      cuisineController.clear();
+                      ingredientsController.clear();
+                    },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
