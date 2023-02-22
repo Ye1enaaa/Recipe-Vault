@@ -1,3 +1,4 @@
+import 'package:firstactivity/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -21,8 +22,8 @@ class _ProfilePageState extends State<ProfilePage> {
               Text(
                 'My Profile',
                 style: GoogleFonts.fredokaOne(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 40
+                  fontWeight: FontWeight.w100,
+                  fontSize: 40,
                 ),
               ),
               const SizedBox(height: 30),

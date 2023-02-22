@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'constants/constants.dart';
+import '../constants/constants.dart';
 
 //enum RadioDataEnum {one, two, three, four, five}
 
@@ -20,7 +20,6 @@ class _AddRecipeState extends State<AddRecipe> {
   TextEditingController ingredientsController = TextEditingController();
   TextEditingController ratingsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  var responses;
   int selectedRadio=0;
   Future <void> postData() async{
     final cuisine = cuisineController.text;
@@ -35,8 +34,10 @@ class _AddRecipeState extends State<AddRecipe> {
           })
       ..headers.addAll({'Content-Type': 'multipart/form-data'})
      ..files.add(await http.MultipartFile.fromPath('img', image!.path));
-   var response = await request.send();
-   
+    await request.send();
+    backtoPrevious();
+    cuisineController.clear();
+    ingredientsController.clear();
   }
   
   
@@ -57,7 +58,13 @@ class _AddRecipeState extends State<AddRecipe> {
     selectedRadio = 0;
     super.initState();
   }
-  //RadioDataEnum radiodataEnum = RadioDataEnum.one;
+
+  void backtoPrevious(){
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Recipe added'),
+      backgroundColor: ksecColor));
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +109,12 @@ class _AddRecipeState extends State<AddRecipe> {
                   const SizedBox(height: 40),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return 'Please provide dish name';
+                        }
+                      },
                       decoration: InputDecoration(
                         hintStyle: GoogleFonts.fredoka(),
                         hintText: 'Dish name',
@@ -122,7 +134,12 @@ class _AddRecipeState extends State<AddRecipe> {
                   const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: TextField(
+                    child: TextFormField(
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return 'Please provide dish name';
+                        }
+                      },
                       decoration: InputDecoration(
                         hintStyle: GoogleFonts.fredoka(),
                         hintText: 'Ingredients',
@@ -234,10 +251,14 @@ class _AddRecipeState extends State<AddRecipe> {
                   ),
                   const SizedBox(height: 30),
                   OutlinedButton(
-                    onPressed: (){
-                      postData();
-                      cuisineController.clear();
-                      ingredientsController.clear();
+                    onPressed: ()async{
+                      if(formKey.currentState!.validate()){
+                        setState(() {
+                          postData();
+                          image = null;
+                          selectedRadio = 0;
+                        });
+                      }
                     },
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 50),

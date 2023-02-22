@@ -1,4 +1,4 @@
-import 'package:firstactivity/add_recipe.dart';
+import 'package:firstactivity/ui/add_recipe.dart';
 import 'package:firstactivity/constants/constants.dart';
 import 'package:firstactivity/ui/listings.dart';
 import 'package:firstactivity/ui/profile_page.dart';
