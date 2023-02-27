@@ -1,10 +1,6 @@
-import 'dart:async';
-import 'package:firstactivity/constants/constants.dart';
-import 'package:firstactivity/ui/root_page.dart';
+import 'package:firstactivity/custom_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:slide_to_act/slide_to_act.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({ Key? key }) : super(key: key);
@@ -26,62 +22,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             )
           ),
           child: Column(
-            children: [
-              const SizedBox(height: 40),
-              Row(
-                children: [
-                  const SizedBox(width: 150),
-                  Text(
-                      'Recipe Vault',
-                      style: GoogleFonts.fredoka(
-                        fontSize: 30
-                      )
-                    ),
-                ],
-              ),
-              const SizedBox(height: 25),
-              Row(
-                children: [
-                  const SizedBox(width: 40),
-                  Column(
-                    children: [
-                      Text(
-                          'Capture every flavor and memory with ease-',
-                          style: GoogleFonts.fredoka(
-                            fontSize: 18
-                          )
-                        ),
-                        Text(
-                          'keep track of your culinary adventures with a recipe diary app.',
-                          style: GoogleFonts.fredoka(
-                            fontSize: 15
-                          )
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 650),
-              SlideAction(
-                outerColor: ksecColor,
-                  sliderButtonIcon: const Icon(
-                    LineIcons.arrowRight,
-                    size: 20,
-                  ),
-                  text: 'GET STARTED',
-                  textStyle: GoogleFonts.fredoka(
-                    fontSize: 18
-                  ),
-                  onSubmit: ()
-                  {
-                    Timer(const Duration(milliseconds: 500), () => 
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const RootPage()))
-                    );
-                  },
-              )
-            ],
-          ),
-        ),
+            children: const[
+              SizedBox(height: 40),
+              CustomTitle(),
+              SizedBox(height: 25),
+              CustomSubTitle(),
+              SizedBox(height: 650),
+              CustomSlide()
+            ]
+          )
+        )
       )
     );
   }

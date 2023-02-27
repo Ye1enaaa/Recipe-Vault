@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:io';
+import 'package:firstactivity/custom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -20,22 +23,31 @@ class _AddRecipeState extends State<AddRecipe> {
   TextEditingController ratingsController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   int selectedRadio=0;
+  var drop = '';
 
   Future postRecipeData() async{
-    final cuisine = cuisineController.text;
-    final ingredients = ingredientsController.text;
     var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL));
     request.headers.addAll({'Content-Type': 'multipart/form-data'});
     request.fields.addAll(
       {
-        'cuisine': cuisine,
-        'ingredients' : ingredients,
-        'ratings' : selectedRadio.toString()
+        'cuisine': cuisineController.text,
+        'ingredients' : ingredientsController.text,
+        'ratings' : selectedRadio.toString(),
+        'type': drop
       }
     );
     request.files.add(await http.MultipartFile.fromPath('img', image!.path));
-    var response = await request.send();
-    backtoPrevious();
+    await request.send().then((response){
+      if (response.statusCode == 200){
+        backtoPrevious();
+        setState(() {
+          image = null;
+          cuisineController.clear();
+          ingredientsController.clear();
+          selectedRadio = 0;
+        });
+      }
+    });
   }
   
   
@@ -51,6 +63,7 @@ class _AddRecipeState extends State<AddRecipe> {
     }
     );
   }
+
   @override
   void initState() {
     selectedRadio = 0;
@@ -75,12 +88,18 @@ class _AddRecipeState extends State<AddRecipe> {
         child: Form( 
           key: formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: SingleChildScrollView(
               child: Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 7),
+                  Row(
+                    children: const[
+                      CustomAvatar(),
+                      SizedBox(width: 3),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
                   InkWell(
                     onTap: (){
                       imagePicker();
@@ -98,16 +117,16 @@ class _AddRecipeState extends State<AddRecipe> {
                       child: Center(
                         child: Column(
                           children: [
-                          Expanded(child: image == null ?
-                         Center(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 130),
-                              const Icon(LineIcons.upload),
-                              Text(
-                                'Tap to upload image',
-                                style: GoogleFonts.fredoka(),
-                              ),
+                            Expanded(child: image == null ?
+                            Center(
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 130),
+                                  const Icon(LineIcons.upload),
+                                  Text(
+                                    'Tap to upload image',
+                                    style: GoogleFonts.fredoka(),
+                                  ),
                             ],
                           ))
                           :Image.file(image,
@@ -117,60 +136,15 @@ class _AddRecipeState extends State<AddRecipe> {
                           )
                           )]
                         ) 
-                      ))
+                      )
+                    )
                     )
                   ),
                   //inputs
                   const SizedBox(height: 40),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: TextFormField(
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return 'Please provide dish name';
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintStyle: GoogleFonts.fredoka(),
-                        hintText: 'Dish name',
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)
-                        ),
-                        filled: true
-                      ),
-                      maxLines: 1,
-                      obscureText: false,
-                      controller: cuisineController,                    
-                    )
-                  ),
+                  CustomDishField(controller: cuisineController),
                   const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: TextFormField(
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return 'Please provide ingredients';
-                        }
-                      },
-                      decoration: InputDecoration(
-                        hintStyle: GoogleFonts.fredoka(),
-                        hintText: 'Ingredients',
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)
-                        ),
-                        filled: true
-                      ),
-                      maxLines: null,
-                      obscureText: false,
-                      controller: ingredientsController,                    
-                    )
-                  ),
+                  CustomIngredientsField(controller: ingredientsController),
                   const SizedBox(height: 30),
                   Text(
                     'Rate this dish',
@@ -234,41 +208,13 @@ class _AddRecipeState extends State<AddRecipe> {
                       ) 
                     ]
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children:[
-                      Text(
-                        '1',
-                        style: GoogleFonts.fredoka()
-                      ),
-                      Text(
-                        '2',
-                        style: GoogleFonts.fredoka()
-                      ),
-                      Text(
-                        '3',
-                        style: GoogleFonts.fredoka()
-                      ),
-                      Text(
-                        '4',
-                        style: GoogleFonts.fredoka()
-                      ),
-                      Text(
-                        '5',
-                        style: GoogleFonts.fredoka()
-                      )  
-                    ]
-                  ),
+                  const CustomRow(),
                   const SizedBox(height: 30),
                   OutlinedButton(
                     onPressed: ()async{
                       if(formKey.currentState!.validate()){
                         setState(() {
                           postRecipeData();
-                          image = null;
-                          cuisineController.clear();
-                          ingredientsController.clear();
-                          selectedRadio = 0;
                         });
                       }
                     },
