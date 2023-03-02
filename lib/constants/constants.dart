@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 
-const baseURL = 'http://192.168.69.28:8000';
+const baseURL = 'http://192.168.164.18:8000';
 const postRecipeURL = '$baseURL/api/recipe';
 const getRecipeURL = '$baseURL/api/recipe';
-const getImageURL = '$baseURL/storage/' ;
+const getImageURL = '$baseURL/storage/app/images/';
 const deleteRecipeURL = '$baseURL/api/recipe/';
 
 //https://www.color-hex.com/color-palettes/

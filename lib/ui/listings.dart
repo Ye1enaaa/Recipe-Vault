@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:firstactivity/custom_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firstactivity/widgets/custom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -34,58 +35,14 @@ class _ListingsState extends State<Listings> {
     context: context,
     barrierDismissible: true, 
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(
-          'Confirm Deletion?',
-          style: GoogleFonts.fredoka(),
-        ),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children:<Widget>[
-              Text(
-                'Would you like to delete this recipe?',
-                style: GoogleFonts.fredoka(),
-                )
-            ]
-          )
-        ),
-        actions: <Widget>[
-          OutlinedButton(
-            onPressed: () async{
-              setState(() {
-                deleteRecipe(id);
-                receiveData.removeAt(index);
-              });
-              Navigator.of(context).pop();
-            },
-            style: OutlinedButton.styleFrom(
-              backgroundColor: ksecColor
-            ),
-            child: Text(
-              'Yes',
-              style: GoogleFonts.fredoka(
-                color: Colors.black,
-                fontWeight: FontWeight.w400
-              ),
-            ),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            style: OutlinedButton.styleFrom(
-              backgroundColor: ksecColor
-            ),
-            child: Text(
-              'No',
-              style: GoogleFonts.fredoka(
-                color: Colors.black,
-                fontWeight: FontWeight.w400
-              ),
-            )
-          )
-        ]
-      );
+      return CustomAlertDialog(
+        onPressed: () async{
+        setState(() {
+          deleteRecipe(id);
+          receiveData.removeAt(index);
+        });
+        Navigator.of(context).pop();
+      });
     }
   );
 }
@@ -126,20 +83,9 @@ class _ListingsState extends State<Listings> {
                             children: [
                               const CustomListingAvatar(),
                               const SizedBox(width: 10),
-                              Text(
-                                'Erickson',
-                                style: GoogleFonts.fredoka(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18
-                                )
-                              ),
+                              const EricksonText(),
                               const SizedBox(width: 225),
-                              Text(
-                                '$ratings',
-                                style: GoogleFonts.fredoka(
-                                fontWeight: FontWeight.w500
-                                )
-                              ),
+                              Text('$ratings',style: GoogleFonts.fredoka(fontWeight: FontWeight.w500)),
                               const SizedBox(width: 5),
                               const Icon(LineIcons.star),
                               IconButton(
@@ -155,42 +101,19 @@ class _ListingsState extends State<Listings> {
                       ),
                     Row(
                       children: [
-                        Container(
-                          width: 180,
-                          height: 180,
-                          margin: const EdgeInsets.only(top: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            image: DecorationImage(
-                              image: NetworkImage('$getImageURL$imageValue'),
-                              fit: BoxFit.cover
-                            )
-                          ),
-                        ),
+                        CustomImageWidget(image: DecorationImage(
+                          image: NetworkImage('$getImageURL$imageValue'),
+                          fit: BoxFit.cover
+                        )),
                         const SizedBox(width: 20),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(
-                              '$cuisineName',
-                              style: GoogleFonts.akayaKanadaka(
-                                textStyle: style
-                              )
-                            ),
+                            Text('$cuisineName', style: GoogleFonts.akayaKanadaka(textStyle: style)),
                             const SizedBox(height: 25),
-                            Text(
-                              'Ingredients:',
-                            style: GoogleFonts.fredoka(
-                              fontSize: 17
-                            )
-                            ),
+                            Text('Ingredients:',style: GoogleFonts.fredoka(fontSize: 17)),
                             const SizedBox(height: 6),
-                            Text(
-                              '$ingredientsName',
-                              style: GoogleFonts.dancingScript(
-                                textStyle: secstyle
-                              )
-                            )
+                            Text('$ingredientsName', style: GoogleFonts.dancingScript(textStyle: secstyle))
                           ]
                         )
                       ]

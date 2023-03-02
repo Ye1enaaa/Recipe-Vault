@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firstactivity/ui/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-import 'constants/constants.dart';
+import '../constants/constants.dart';
 
-class CustomRow extends StatelessWidget {
-const CustomRow({ Key? key }) : super(key: key);
+class CustomValueRow extends StatelessWidget {
+const CustomValueRow({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context){
@@ -140,6 +141,7 @@ const CustomDishField({
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextFormField(
+        maxLength: 20,
         validator: (value){
           if(value!.isEmpty){
             return 'Please provide dish name';
@@ -193,6 +195,7 @@ const CustomIngredientsField({
           filled: true
         ),
         maxLines: null,
+        maxLength: 255,
         obscureText: false,
         controller: controller,                    
       )
@@ -384,6 +387,411 @@ const ProfileDescription({ Key? key }) : super(key: key);
           ]
         )
       ]
+    );
+  }
+}
+
+class CustomRadio extends StatefulWidget {
+const CustomRadio({Key? key }) : super(key: key);
+
+  @override
+  _CustomRadioState createState() => _CustomRadioState();
+}
+
+class _CustomRadioState extends State<CustomRadio> {
+  int selectedValue = 1;
+  @override
+
+  void _handleRadioValueChanged(int? value) {
+    setState(() {
+      selectedValue = value!;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Radio(
+          activeColor: ksecColor,
+          value: 1, 
+          groupValue: selectedValue, 
+          onChanged: _handleRadioValueChanged
+        ),
+        Radio(
+          activeColor: ksecColor,
+          value: 2, 
+          groupValue: selectedValue, 
+          onChanged: _handleRadioValueChanged
+        ),
+        Radio(
+          activeColor: ksecColor,
+          value: 3, 
+          groupValue: selectedValue, 
+          onChanged: _handleRadioValueChanged
+        ),
+        Radio(
+          activeColor: ksecColor,
+          value: 4, 
+          groupValue: selectedValue, 
+          onChanged: _handleRadioValueChanged
+        ),
+        Radio(
+          activeColor: ksecColor,
+          value: 5, 
+          groupValue: selectedValue, 
+          onChanged: _handleRadioValueChanged
+        ),
+      ]
+    );
+  }
+}
+
+class RateTheDishText extends StatelessWidget {
+const RateTheDishText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Rate this dish',
+      style: GoogleFonts.fredoka(
+      fontSize: 20
+      )
+    );
+  }
+}
+
+class SubmitText extends StatelessWidget {
+const SubmitText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'SUBMIT',
+      style: GoogleFonts.fredoka(
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      )
+    );
+  }
+}
+
+class UploadImageText extends StatelessWidget {
+const UploadImageText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Tap to upload image',
+      style: GoogleFonts.fredoka(
+        color: Colors.red
+      ),
+    );
+  }
+}
+
+class ConfirmTextDialog extends StatelessWidget {
+const ConfirmTextDialog({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Confirm Deletion?',
+      style: GoogleFonts.fredoka(),
+    );
+  }
+}
+
+class ConfirmationTextDialog extends StatelessWidget {
+const ConfirmationTextDialog({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Would you like to delete this recipe?',
+      style: GoogleFonts.fredoka(),
+    );
+  }
+}
+
+class YesText extends StatelessWidget {
+const YesText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Yes',
+      style: GoogleFonts.fredoka(
+        color: Colors.black,
+        fontWeight: FontWeight.w400
+      ),
+    );
+  }
+}
+
+class NoText extends StatelessWidget {
+const NoText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'No',
+      style: GoogleFonts.fredoka(
+        color: Colors.black,
+        fontWeight: FontWeight.w400
+      ),
+    );
+  }
+}
+
+class EricksonText extends StatelessWidget {
+const EricksonText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Erickson',
+      style: GoogleFonts.fredoka(
+      fontWeight: FontWeight.w400,
+      fontSize: 18
+      )
+    );
+  }
+}
+
+class CustomImageWidget extends StatelessWidget {
+final image;
+const CustomImageWidget({ 
+  required this.image,
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      width: 180,
+      height: 180,
+      margin: const EdgeInsets.only(top: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        image: image
+      ),
+    );
+  }
+}
+
+class FirstCustomRadio extends StatelessWidget {
+final groupValue;
+final onChanged;
+const FirstCustomRadio({
+  required this.groupValue,
+  required this.onChanged, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Radio(
+      activeColor: ksecColor,
+      value: 1, 
+      groupValue: groupValue, 
+      onChanged: onChanged
+    );
+  }
+}
+
+class SecondCustomRadio extends StatelessWidget {
+final groupValue;
+final onChanged;
+const SecondCustomRadio({
+  required this.groupValue,
+  required this.onChanged, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Radio(
+      activeColor: ksecColor,
+      value: 2, 
+      groupValue: groupValue, 
+      onChanged: onChanged
+    );
+  }
+}
+
+class ThirdCustomRadio extends StatelessWidget {
+final groupValue;
+final onChanged;
+const ThirdCustomRadio({
+  required this.groupValue,
+  required this.onChanged, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Radio(
+      activeColor: ksecColor,
+      value: 3, 
+      groupValue: groupValue, 
+      onChanged: onChanged
+    );
+  }
+}
+
+class FourthCustomRadio extends StatelessWidget {
+final groupValue;
+final onChanged;
+const FourthCustomRadio({
+  required this.groupValue,
+  required this.onChanged, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Radio(
+      activeColor: ksecColor,
+      value: 4, 
+      groupValue: groupValue, 
+      onChanged: onChanged
+    );
+  }
+}
+
+class FifthCustomRadio extends StatelessWidget {
+final groupValue;
+final onChanged;
+const FifthCustomRadio({
+  required this.groupValue,
+  required this.onChanged, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Radio(
+      activeColor: ksecColor,
+      value: 5, 
+      groupValue: groupValue, 
+      onChanged: onChanged
+    );
+  }
+}
+
+class CustomImageField extends StatelessWidget {
+final onTap;
+final image;
+const CustomImageField({ 
+  required this.onTap,
+  required this.image,
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return InkWell(
+      onTap: onTap,
+      child: Ink(
+        child: Container(
+        height: 300,
+        width: 450,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black,
+            width: 0.1
+          )
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(child: image == null ?
+              Center(
+                child: Column(
+                  children: const [
+                    SizedBox(height: 130),
+                    Icon(LineIcons.upload),
+                    UploadImageText()
+                  ]
+                )
+              )
+            :Image.file(image,
+            width: 450,
+            height: 300,
+            fit: BoxFit.cover,
+            )
+            )]
+          ) 
+        )
+      )
+      ),
+    );
+  }
+}
+
+class CustomAlertDialog extends StatelessWidget {
+final onPressed;
+const CustomAlertDialog({
+  required this.onPressed, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return AlertDialog(
+        title: const ConfirmTextDialog(),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children:const <Widget>[
+              ConfirmationTextDialog()
+            ]
+          )
+        ),
+        actions: <Widget>[
+          OutlinedButton(
+            onPressed: onPressed,
+            style: OutlinedButton.styleFrom(
+              backgroundColor: ksecColor
+            ),
+            child: const YesText(),
+          ),
+          OutlinedButton(
+            onPressed: ()=>Navigator.of(context).pop(),
+            style: OutlinedButton.styleFrom(
+              backgroundColor: ksecColor
+            ),
+            child: const NoText()
+          )
+        ]
+      );
+  }
+}
+
+class SubmitButton extends StatelessWidget {
+final onPressed;
+final child;
+const SubmitButton({
+  required this.onPressed,
+  required this.child, 
+  Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: ksecColor
+      ), 
+      child: child
+    );
+  }
+}
+
+class CustomAddText extends StatelessWidget {
+const CustomAddText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'ADD RECIPE',
+      style: GoogleFonts.fredoka(
+        fontSize: 21
+      ),
     );
   }
 }

@@ -44,6 +44,7 @@ dependencies:
   action_slider: ^0.6.1
   slide_to_act: ^2.0.1
   dropdown_button2: ^1.9.4
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
