@@ -17,9 +17,11 @@ class AddRecipe extends StatefulWidget {
 class _AddRecipeState extends State<AddRecipe> {
   TextEditingController cuisineController = TextEditingController();
   TextEditingController ingredientsController = TextEditingController();
-  TextEditingController ratingsController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   int selectedRadio=0;
+  String? selectedValue;
+  final List<String> _dropdownValues = ['Breakfast', 'Lunch', 'Dinner'];
 
   Future postRecipeData() async{
     var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL));
@@ -29,6 +31,7 @@ class _AddRecipeState extends State<AddRecipe> {
         'cuisine': cuisineController.text,
         'ingredients' : ingredientsController.text,
         'ratings' : selectedRadio.toString(),
+        'mealtype': selectedValue.toString()
       }
     );
     request.files.add(await http.MultipartFile.fromPath('img', image!.path));
@@ -39,6 +42,7 @@ class _AddRecipeState extends State<AddRecipe> {
           image = null;
           cuisineController.clear();
           ingredientsController.clear();
+          typeController.clear();
           selectedRadio = 0;
         });
       }
@@ -71,11 +75,7 @@ class _AddRecipeState extends State<AddRecipe> {
       const SnackBar(content: Text('Recipe added'),
       backgroundColor: ksecColor));
   }
-  void thereisError(){
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please provide details'),
-      backgroundColor: ksecColor));
-  }
+  
   
   @override
   Widget build(BuildContext context) {
@@ -107,7 +107,7 @@ class _AddRecipeState extends State<AddRecipe> {
                       child: Column(
                         children: [
                           Expanded(child:image != null ?
-                          Image.file(image!, //edited
+                          Image.file(image!,
                             width: 450,
                             height: 300,
                             fit: BoxFit.cover,
@@ -132,6 +132,21 @@ class _AddRecipeState extends State<AddRecipe> {
                 CustomDishField(controller: cuisineController),
                 const SizedBox(height: 30),
                 CustomIngredientsField(controller: ingredientsController),
+                const SizedBox(height: 30),
+                DropdownButton<String>(
+                value: selectedValue,
+                onChanged: (value){
+                  setState(() {
+                    selectedValue = value as String;
+                  });
+                },
+                items: _dropdownValues.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
                 const SizedBox(height: 30),
                 const RateTheDishText(),
                 const SizedBox(height: 30),

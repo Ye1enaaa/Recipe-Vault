@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firstactivity/ui/root_page.dart';
+import 'package:firstactivity/ui/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -87,7 +86,7 @@ const CustomSlide({ Key? key }) : super(key: key);
         onSubmit: ()
         {
           Timer(const Duration(milliseconds: 500), () => 
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>const RootPage()))
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()))
           );
         },
     );
@@ -184,6 +183,46 @@ const CustomIngredientsField({
           return null;
         },
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: 30),
+          hintStyle: GoogleFonts.fredoka(),
+          hintText: 'Ingredients',
+          enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white)
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey.shade400)
+          ),
+          filled: true
+        ),
+        maxLines: null,
+        maxLength: 255,
+        obscureText: false,
+        controller: controller,                    
+      )
+    );
+  }
+}
+
+class CustomTypeField extends StatelessWidget {
+final controller;
+const CustomTypeField({
+  required this.controller, 
+  Key? key 
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: TextFormField(
+        validator: (value){
+          if(value!.isEmpty){
+            return 'Please provide ingredients';
+          }
+          return null;
+        },
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(vertical: 30),
           hintStyle: GoogleFonts.fredoka(),
           hintText: 'Ingredients',
           enabledBorder: const OutlineInputBorder(
