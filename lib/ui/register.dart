@@ -1,33 +1,34 @@
 import 'dart:convert';
-import 'package:firstactivity/constants/constants.dart';
-import 'package:firstactivity/models/api_response.dart';
-import 'package:firstactivity/ui/admin.dart';
-import 'package:firstactivity/ui/register.dart';
-import 'package:firstactivity/ui/root_page.dart';
+import 'package:firstactivity/ui/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
+import '../constants/constants.dart';
+import '../models/api_response.dart';
 import 'package:http/http.dart' as http;
-
-class Login extends StatefulWidget {
-  const Login({ Key? key }) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({ Key? key }) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
-  Future<ApiResponse> login (String email, String password)async{
+  Future<ApiResponse> register(String name, String email, String password)async{
   ApiResponse apIresponse = ApiResponse();
-
   try{
     final response = await http.post(
-    Uri.parse(loginURL),
+    Uri.parse(registerURL),
     headers: {'Accept': 'application/json'},
-    body: {'email': email, 'password': password}
+    body: {
+    'name': name,
+    'email': email, 
+    'password': password,
+    }
     );
     switch(response.statusCode){
       case 200:
@@ -41,26 +42,30 @@ class _LoginState extends State<Login> {
       apIresponse.error = jsonDecode(response.body)['message'];
       break;
       default:
-      apIresponse.error = 'Somethin went Wrong';
+      apIresponse.error = 'Error';
       break;
     }
   }
   catch(err){
-    apIresponse.error = 'Something went Wrong';
+    apIresponse.error = 'Server Error';
   }
 
   return apIresponse;
 }
-  void loginNow()async{
-    ApiResponse response = await login(nameController.text, passwordController.text);
+  void registerUser() async{
+    ApiResponse response = await register(nameController.text, emailController.text, passwordController.text);
     if(response.error == null){
-      // ignore: use_build_context_synchronously
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>const RootPage()));
-    }
-    else{
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Incorrect Details')));
-    }
+         callMe();
+      }
+      else{
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${response.error}')));
+      }
+  }
+
+  void callMe()async{
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> const Login()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('User created')));
   }
 
   @override
@@ -69,7 +74,6 @@ class _LoginState extends State<Login> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            //height: 600,
             decoration: const BoxDecoration(color: ksecColor),
             child: Form(
               key: formKey,
@@ -78,14 +82,13 @@ class _LoginState extends State<Login> {
                   const SizedBox(height: 30),
                   const Image(
                     width: 400,
-                    height: 250,
-                    image: AssetImage('assets/img/userlogin.png')),
+                    height: 260,
+                    image: AssetImage('assets/img/registration.png')),
                   const SizedBox(height: 20),
-                  Text('Keep track of your culinary creations with ease using Recipe Vault.', style: GoogleFonts.ubuntu(fontSize: 16)),
-                  Text('From savory to sweet, never forget a recipe again.', style: GoogleFonts.ubuntu(fontSize: 16)),
+                  Text('Create your account and start saving your favorite recipes today!', style: GoogleFonts.ubuntu(fontSize: 16)),
                   const SizedBox(height: 100),
                   Container(
-                    height: 460,
+                    height: 480,
                     width: 500,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -94,8 +97,29 @@ class _LoginState extends State<Login> {
                     child: Column(
                       children: [
                         const SizedBox(height: 30),
-                        Text('Login to your account', style: GoogleFonts.ubuntu(fontSize: 22, fontWeight: FontWeight.bold)),
+                        Text('Create new account', style: GoogleFonts.ubuntu(fontSize: 22, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 30),
+                        SizedBox(
+                          width: 350,
+                          child: TextFormField(
+                            validator: (value){
+                              if(value!.isEmpty){
+                                return 'Please provide name!';
+                              }
+                            },
+                            decoration: InputDecoration(
+                            hintStyle: GoogleFonts.fredoka(),
+                            hintText: 'Name',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(40)
+                            ),
+                            filled: true
+                          ),
+                          controller: nameController,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                         SizedBox(
                           width: 350,
                           child: TextFormField(
@@ -113,7 +137,7 @@ class _LoginState extends State<Login> {
                             ),
                             filled: true
                           ),
-                          controller: nameController,
+                          controller: emailController
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -138,26 +162,11 @@ class _LoginState extends State<Login> {
                           obscureText: true,
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            const SizedBox(width: 250),
-                            Text('No Account?', style: GoogleFonts.fredoka(fontSize: 12)),
-                            const SizedBox(width: 1),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Register()));
-                              },
-                              child: Text('Register here', 
-                                style: GoogleFonts.fredoka(color: ksecColor,fontSize: 12,decoration: TextDecoration.underline)
-                              ))
-                          ]
-                        ),
                         const SizedBox(height: 20),
                         GestureDetector(
                           onTap: (){
                             if(formKey.currentState!.validate()){
-                              loginNow();
+                              registerUser();
                             }
                           },
                           child: Container(
@@ -168,23 +177,21 @@ class _LoginState extends State<Login> {
                               color: Colors.black
                             ),
                             child: Center(
-                              child: Text('Log In', style: GoogleFonts.fredoka(fontSize: 20,color: Colors.white, fontWeight: FontWeight.w600)),
+                              child: Text('Sign Up', style: GoogleFonts.fredoka(fontSize: 20,color: Colors.white, fontWeight: FontWeight.w600)),
                             ),
                           ),
                         ),
                         const SizedBox(height: 15),
-                        Text('or', style: GoogleFonts.fredoka(fontSize: 15)),
-                        const SizedBox(height: 15),
                         Row(
                           children: [
                             const SizedBox(width: 110),
-                            Text('Are you an administrator?', style: GoogleFonts.fredoka(fontSize: 14)),
+                            Text('Already have an account?', style: GoogleFonts.fredoka(fontSize: 14)),
                             const SizedBox(width: 2),
                             GestureDetector(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Admin()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
                               },
-                              child: Text('Click here', style: GoogleFonts.fredoka(color: Colors.red,fontSize: 14, decoration: TextDecoration.underline)))
+                              child: Text('Login Now', style: GoogleFonts.fredoka(color: Colors.red,fontSize: 14, decoration: TextDecoration.underline)))
                           ],
                         )
                       ],

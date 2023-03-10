@@ -10,6 +10,9 @@ const breakfastRecipeURL = '$baseURL/api/filter/Breakfast';
 const lunchRecipeURL = '$baseURL/api/filter/Lunch';
 const dinnerRecipeURL = '$baseURL/api/filter/Dinner';
 const loginURL = '$baseURL/api/login';
+const registerURL = '$baseURL/api/register';
+const adminURL = '$baseURL/api/loginadmin';
+const usersURL = '$baseURL/api/users';
 
 //https://www.color-hex.com/color-palettes/
 //const 0xFF
