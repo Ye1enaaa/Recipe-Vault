@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:line_icons/line_icons.dart';
-import '../constants/constants.dart';
+import '../../constants/constants.dart';
+import '../../models/api_response.dart';
 
 class AddRecipe extends StatefulWidget {
   const AddRecipe({ Key? key }) : super(key: key);
@@ -23,9 +24,14 @@ class _AddRecipeState extends State<AddRecipe> {
   String? selectedValue;
   final List<String> _dropdownValues = ['Breakfast', 'Lunch', 'Dinner'];
 
-  Future postRecipeData() async{
-    var request = http.MultipartRequest('POST', Uri.parse(postRecipeURL));
-    request.headers.addAll({'Content-Type': 'multipart/form-data'});
+  Future<ApiResponse> postRecipeData() async{
+    ApiResponse apiResponse = ApiResponse();
+    String token = await getToken();
+    var request = http.MultipartRequest('POST', Uri.parse(storeAllRecipeURL));
+    request.headers.addAll({
+      'Authorization': 'Bearer $token', //
+      'Content-Type': 'multipart/form-data'
+    });
     request.fields.addAll(
       {
         'cuisine': cuisineController.text,
@@ -47,6 +53,10 @@ class _AddRecipeState extends State<AddRecipe> {
         });
       }
     print(response.statusCode);
+    print(token);
+    return apiResponse;
+    //print(response.headers);
+    //print(token);
   }
   //https://medium.com/nerd-for-tech/multipartrequest-in-http-for-sending-images-videos-via-post-request-in-flutter-e689a46471ab
   

@@ -1,11 +1,13 @@
-import 'package:firstactivity/ui/add_recipe.dart';
+import 'package:firstactivity/ui/Root%20Page%20Folder/add_recipe.dart';
 import 'package:firstactivity/constants/constants.dart';
-import 'package:firstactivity/ui/listings.dart';
-import 'package:firstactivity/ui/profile_page.dart';
+import 'package:firstactivity/ui/Root%20Page%20Folder/listings.dart';
+import 'package:firstactivity/ui/Root%20Page%20Folder/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+
+import 'feed_page.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({ Key? key }) : super(key: key);
@@ -23,6 +25,7 @@ class _RootPageState extends State<RootPage> {
       body: IndexedStack(
         index: selectedIndex,
         children: const [
+          FeedPage(),
           Listings(),
           AddRecipe(),
           ProfilePage()
@@ -41,6 +44,13 @@ class _RootPageState extends State<RootPage> {
           });
         },
         tabs: [
+          GButton(
+            icon: LineIcons.home,
+            text: 'Homepage',
+            borderRadius: BorderRadius.circular(20),
+            textStyle: GoogleFonts.fredoka(),
+            iconActiveColor: ksecColor,
+          ),
           GButton(
             icon: LineIcons.bookmark,
             text: 'Listings',

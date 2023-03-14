@@ -1,7 +1,7 @@
-import 'package:firstactivity/ui/login.dart';
+import 'package:firstactivity/ui/Login%20&%20Register%20Page/login.dart';
 import 'package:firstactivity/ui/onboarding_screen.dart';
 import 'package:flutter/material.dart';
-import 'ui/root_page.dart';
+import 'ui/Root Page Folder/root_page.dart';
 
 void main() {
   runApp(const MyApp());

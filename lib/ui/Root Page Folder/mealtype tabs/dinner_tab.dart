@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import '../constants/constants.dart';
-import '../widgets/custom_widget.dart';
+import '../../../constants/constants.dart';
+import '../../../models/api_response.dart';
+import '../../../widgets/custom_widget.dart';
 import 'package:http/http.dart' as http;
 class DinnerTab extends StatefulWidget {
   const DinnerTab({ Key? key }) : super(key: key);
@@ -13,11 +14,18 @@ class DinnerTab extends StatefulWidget {
 }
 
 class _DinnerTabState extends State<DinnerTab> {
-   List receiveData = <dynamic>[];
+  List receiveData = <dynamic>[];
+  int userId = 0;
   Future getDatA() async {
-    final response = await http.get(Uri.parse(dinnerRecipeURL));
+    String token = await getToken();
+    userId = await getUserId();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization' : 'Bearer $token'
+    };
+    final response = await http.get(Uri.parse('$dinnerRecipeURL$userId'), headers: headers);
     final decodeme = jsonDecode(response.body) as Map;
-      final result = decodeme['filtered'] as List;
+      final result = decodeme['dinner'] as List;
       setState(() {
         receiveData = result;
       });

@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:firstactivity/ui/login.dart';
+import 'package:firstactivity/models/api_response.dart';
+import 'package:firstactivity/ui/Login%20&%20Register%20Page/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -422,9 +423,31 @@ const ProfileDescription({ Key? key }) : super(key: key);
                     )
                   )
                 ]
+              ),
+              const SizedBox(height: 30),
+              GestureDetector(
+                onTap: (){
+                  logout().then((value){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+                  });
+                },
+                child: Row(
+                  children: [
+                    const SizedBox(width: 30),
+                    const Icon(LineIcons.removeUser),
+                    const SizedBox(width: 30),
+                    Text(
+                      'Log Out',
+                      style: GoogleFonts.fredoka(
+                        fontSize: 18,
+                      )
+                    )
+                  ]
+                ),
               )
           ]
-        )
+        ),
+
       ]
     );
   }

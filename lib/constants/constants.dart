@@ -1,14 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 
-const baseURL = 'http://192.168.22.139:8000';
+const baseURL = 'http://192.168.216.201:8000';
 const postRecipeURL = '$baseURL/api/recipe';
+const storeAllRecipeURL = '$baseURL/api/recipes';
 const getRecipeURL = '$baseURL/api/recipe';
 const getImageURL = '$baseURL/storage/app/images/';
 const deleteRecipeURL = '$baseURL/api/recipe/';
-const breakfastRecipeURL = '$baseURL/api/filter/Breakfast';
-const lunchRecipeURL = '$baseURL/api/filter/Lunch';
-const dinnerRecipeURL = '$baseURL/api/filter/Dinner';
+const breakfastRecipeURL = '$baseURL/api/brkfst/';
+const lunchRecipeURL = '$baseURL/api/lunch/';
+const dinnerRecipeURL = '$baseURL/api/dinner/';
 const loginURL = '$baseURL/api/login';
 const registerURL = '$baseURL/api/register';
 const adminURL = '$baseURL/api/loginadmin';

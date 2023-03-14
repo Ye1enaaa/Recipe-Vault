@@ -1,26 +1,36 @@
 import 'dart:convert';
+import 'package:firstactivity/models/api_response.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import '../constants/constants.dart';
-import '../widgets/custom_widget.dart';
+import '../../../constants/constants.dart';
+import '../../../widgets/custom_widget.dart';
 import 'package:http/http.dart' as http;
-class LunchTab extends StatefulWidget {
-  const LunchTab({ Key? key }) : super(key: key);
+class BreakfastTab extends StatefulWidget {
+  const BreakfastTab({ Key? key }) : super(key: key);
 
   @override
-  _LunchTabState createState() => _LunchTabState();
+  _BreakfastTabState createState() => _BreakfastTabState();
 }
 
-class _LunchTabState extends State<LunchTab> {
+class _BreakfastTabState extends State<BreakfastTab> {
   List receiveData = <dynamic>[];
-  Future getDatA() async {
-    final response = await http.get(Uri.parse(lunchRecipeURL));
+  int userId = 0;
+  Future getDatA()async {
+    String token = await getToken();
+    userId = await getUserId();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization' : 'Bearer $token'
+    };
+    final response = await http.get(Uri.parse('$breakfastRecipeURL$userId'), headers: headers);
     final decodeme = jsonDecode(response.body) as Map;
-      final result = decodeme['filtered'] as List;
+      final result = decodeme['breakfast'] as List;
       setState(() {
         receiveData = result;
       });
+    print(userId);
+    //print(response.body);
   }
 
   Future deleteRecipe(String id)async{
@@ -43,6 +53,7 @@ class _LunchTabState extends State<LunchTab> {
     }
   );
 }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,6 +134,6 @@ class _LunchTabState extends State<LunchTab> {
           ) 
         )
       )
-    ); 
+    );
   }
 }

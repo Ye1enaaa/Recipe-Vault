@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:firstactivity/constants/constants.dart';
-import 'package:firstactivity/ui/user_index.dart';
+import 'package:firstactivity/ui/Login%20&%20Register%20Page/admin%20login/user_index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import '../models/api_response.dart';
+import '../../../models/api_response.dart';
 
 class Admin extends StatefulWidget {
   const Admin({ Key? key }) : super(key: key);

@@ -2,22 +2,30 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
-import '../constants/constants.dart';
-import '../widgets/custom_widget.dart';
+import '../../../constants/constants.dart';
+import '../../../models/api_response.dart';
+import '../../../widgets/custom_widget.dart';
 import 'package:http/http.dart' as http;
-class BreakfastTab extends StatefulWidget {
-  const BreakfastTab({ Key? key }) : super(key: key);
+class LunchTab extends StatefulWidget {
+  const LunchTab({ Key? key }) : super(key: key);
 
   @override
-  _BreakfastTabState createState() => _BreakfastTabState();
+  _LunchTabState createState() => _LunchTabState();
 }
 
-class _BreakfastTabState extends State<BreakfastTab> {
+class _LunchTabState extends State<LunchTab> {
   List receiveData = <dynamic>[];
+  int userId = 0;
   Future getDatA() async {
-    final response = await http.get(Uri.parse(breakfastRecipeURL));
+    String token = await getToken();
+    userId = await getUserId();
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization' : 'Bearer $token'
+    };
+    final response = await http.get(Uri.parse('$lunchRecipeURL$userId'), headers: headers);
     final decodeme = jsonDecode(response.body) as Map;
-      final result = decodeme['filtered'] as List;
+      final result = decodeme['lunch'] as List;
       setState(() {
         receiveData = result;
       });
@@ -123,6 +131,6 @@ class _BreakfastTabState extends State<BreakfastTab> {
           ) 
         )
       )
-    );
+    ); 
   }
 }
