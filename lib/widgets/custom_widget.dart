@@ -529,7 +529,22 @@ const SubmitText({ Key? key }) : super(key: key);
   @override
   Widget build(BuildContext context){
     return Text(
-      'SUBMIT',
+      'Save as Secret',
+      style: GoogleFonts.fredoka(
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      )
+    );
+  }
+}
+
+class ShareToPublicText extends StatelessWidget {
+const ShareToPublicText({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context){
+    return Text(
+      'Share to Public',
       style: GoogleFonts.fredoka(
         fontWeight: FontWeight.w500,
         color: Colors.black,

@@ -58,6 +58,41 @@ class _AddRecipeState extends State<AddRecipe> {
     //print(response.headers);
     //print(token);
   }
+
+  Future<ApiResponse> postRecipePublic() async{
+    ApiResponse apiResponse = ApiResponse();
+    String token = await getToken();
+    var request = http.MultipartRequest('POST', Uri.parse(storeFeedRecipeURL));
+    request.headers.addAll({
+      'Authorization': 'Bearer $token', //
+      'Content-Type': 'multipart/form-data'
+    });
+    request.fields.addAll(
+      {
+        'cuisine': cuisineController.text,
+        'ingredients' : ingredientsController.text,
+        'ratings' : selectedRadio.toString(),
+        'mealtype': selectedValue.toString()
+      }
+    );
+    request.files.add(await http.MultipartFile.fromPath('img', image!.path));
+    var response = await request.send();
+      if (response.statusCode == 200){
+        dataSuccess();
+        setState(() {
+          image = null;
+          cuisineController.clear();
+          ingredientsController.clear();
+          typeController.clear();
+          selectedRadio = 0;
+        });
+      }
+    print(response.statusCode);
+    print(token);
+    return apiResponse;
+    //print(response.headers);
+    //print(token);
+  }
   //https://medium.com/nerd-for-tech/multipartrequest-in-http-for-sending-images-videos-via-post-request-in-flutter-e689a46471ab
   
   
@@ -177,13 +212,26 @@ class _AddRecipeState extends State<AddRecipe> {
                 ),
                 const CustomValueRow(),
                 const SizedBox(height: 30),
-                SubmitButton(onPressed:  ()async{
+                Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    SubmitButton(onPressed:  ()async{
+                        if(formKey.currentState!.validate()){
+                          setState(() {
+                            postRecipeData();
+                          });
+                        }
+                      }, child: const SubmitText()),
+                      const SizedBox(width: 50),
+                      SubmitButton(onPressed:  ()async{
                     if(formKey.currentState!.validate()){
                       setState(() {
-                        postRecipeData();
+                        postRecipePublic();
                       });
                     }
-                  }, child: const SubmitText())
+                  }, child: const ShareToPublicText())
+                  ],
+                )
                 ]
               )
             )

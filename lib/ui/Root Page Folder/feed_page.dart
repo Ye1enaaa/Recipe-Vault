@@ -16,7 +16,7 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> {
   List receiver = <dynamic>[];
   Future getDatA() async{
-    final response = await http.get(Uri.parse(getRecipeURL));
+    final response = await http.get(Uri.parse(getFeedRecipeURL));
     final decodeThis = jsonDecode(response.body) as Map;
     final decoded = decodeThis['recipes'] as List;
     setState(() {
