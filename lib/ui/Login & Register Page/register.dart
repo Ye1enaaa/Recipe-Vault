@@ -17,6 +17,7 @@ class _RegisterState extends State<Register> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConFController = TextEditingController();
   var formKey = GlobalKey<FormState>();
   Future<ApiResponse> register(String name, String email, String password)async{
   ApiResponse apIresponse = ApiResponse();
@@ -59,7 +60,7 @@ class _RegisterState extends State<Register> {
       }
       else{
         // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${response.error}')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Email Already Taken')));
       }
   }
 
@@ -88,7 +89,7 @@ class _RegisterState extends State<Register> {
                   Text('Create your account and start saving your favorite recipes today!', style: GoogleFonts.ubuntu(fontSize: 16)),
                   const SizedBox(height: 100),
                   Container(
-                    height: 480,
+                    height: 535,
                     width: 500,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -159,6 +160,28 @@ class _RegisterState extends State<Register> {
                             filled: true
                           ),
                           controller: passwordController,
+                          obscureText: true,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: 350,
+                          child: TextFormField(
+                            validator: (value){
+                              if(value != passwordController.text){
+                                return 'Password dont match!';
+                              }
+                            },
+                            decoration: InputDecoration(
+                            hintStyle: GoogleFonts.fredoka(),
+                            hintText: 'Password Confirmation',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(40)
+                            ),
+                            filled: true
+                          ),
+                          controller: passwordConFController,
                           obscureText: true,
                           ),
                         ),

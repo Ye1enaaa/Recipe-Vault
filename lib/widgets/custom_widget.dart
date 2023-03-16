@@ -254,7 +254,7 @@ const CustomListingAvatar({ Key? key }) : super(key: key);
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         image: const DecorationImage(
-          image: AssetImage('assets/img/erickson.jpg'),
+          image: AssetImage('assets/img/avatarprd.png'),
         )
       )
     );

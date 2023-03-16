@@ -56,10 +56,11 @@ class _LoginState extends State<Login> {
     ApiResponse response = await login(nameController.text, passwordController.text);
     if(response.error == null){
       saveToken(response.data as User);
+      getUserDetail();
     }
     else{
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Incorrect Details')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Incorrect Details')));
     }
   }
 

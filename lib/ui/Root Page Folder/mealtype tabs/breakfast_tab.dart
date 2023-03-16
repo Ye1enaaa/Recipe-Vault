@@ -91,8 +91,8 @@ class _BreakfastTabState extends State<BreakfastTab> {
                             children: [
                               const CustomListingAvatar(),
                               const SizedBox(width: 10),
-                              const EricksonText(),
-                              const SizedBox(width: 225),
+                              //const EricksonText(),
+                              const SizedBox(width: 280),
                               Text('$ratings',style: GoogleFonts.fredoka(fontWeight: FontWeight.w500)),
                               const SizedBox(width: 5),
                               const Icon(LineIcons.star),
