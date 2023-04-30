@@ -1,4 +1,4 @@
-This app is in development phases:
+This app is in development phase:<br>
 Added features:
 1. Multi Users 
 2. Added feed page in order for users to interact with each other
