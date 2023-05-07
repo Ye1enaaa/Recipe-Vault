@@ -5,7 +5,7 @@ Added features:
 
 Next Update:
 1. For future updates, I will add some ordering methods
-2. Like & commment features from other users
+2. Like & commment features from other users<br>
 Develop by: ERICKSON AVILA DELA CRUZ
 
 This application is for school purposes only.
